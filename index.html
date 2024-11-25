@@ -72,7 +72,11 @@
                     <div class="arrivals_icon">
                         <p class="writer">Hanuman Prasad Poddar</p>
                     </div>
-                    <button class="arrivals_btn" onclick="openPdfViewer('public/books_pdf/PadRatnakar.pdf')">Learn More</button>
+                    <button 
+                    class="arrivals_btn open-pdf-viewer" 
+                    data-pdf="public/books_pdf/PadRatnakar.pdf">
+                    Learn More
+                </button>
                 </div>
             </div>
 
@@ -194,7 +198,7 @@
 
     </div>
 
-    <div id="pdf-viewer-modal" class="modal" style="display:none;">
+    <!-- <div id="pdf-viewer-modal" class="modal" style="display:none;">
         <div class="modal-content">
           <span class="close-btn" onclick="closePdfViewer()">&times;</span>
           <div class="top-bar">
@@ -204,7 +208,19 @@
           </div>
           <canvas id="pdf-render"></canvas>
         </div>
-      </div>
+      </div> -->
+      <div id="pdf-modal" style="display: none;">
+        <div class="modal-content">
+            <button id="close-pdf-viewer">Close</button>
+            <div id="loading" style="display: block;">Loading PDF...</div>
+            <canvas id="pdf-render"></canvas>
+            <div class="navigation">
+                <button id="prev-page">Previous</button>
+                <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
+                <button id="next-page">Next</button>
+            </div>
+        </div>
+    </div>
     <!--Footer-->
 <!-- 
     <footer>
