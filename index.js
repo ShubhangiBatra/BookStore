@@ -3,7 +3,7 @@ let pdfDoc = null,
     pageIsRendering = false,
     pageNumIsPending = null,
     currentPDF = '', // Dynamic PDF URL
-    scale = 1.0; // Default scale for PDFs
+    scale = 1; // Default scale for PDFs
 
 const canvas = document.querySelector('#pdf-render'),
     ctx = canvas.getContext('2d'),
@@ -17,13 +17,11 @@ const renderPage = (num) => {
 
     pdfDoc.getPage(num).then((page) => {
         const viewport = page.getViewport({ scale });
-        const desiredWidth = canvas.parentElement.offsetWidth; // Fit canvas to container
-        const calculatedScale = desiredWidth / viewport.width;
+        const containerWidth = canvas.parentElement.offsetWidth; // Fit canvas to container
+        const scaleFactor = containerWidth / viewport.width;
 
-        // Adjust the scale dynamically if it's smaller than the user-defined scale
-        const finalScale = Math.max(scale, calculatedScale);
-
-        const adjustedViewport = page.getViewport({ scale: finalScale });
+        // Adjust the viewport based on the new scale
+        const adjustedViewport = page.getViewport({ scale: scaleFactor });
         canvas.height = adjustedViewport.height;
         canvas.width = adjustedViewport.width;
 
