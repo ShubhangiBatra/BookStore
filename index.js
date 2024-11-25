@@ -37,3 +37,16 @@ function renderPDFAsImage(pdfUrl, imageId) {
 document.addEventListener('DOMContentLoaded', () => {
     renderPDFAsImage('books_pdf/PadRatnakar.pdf', 'pdf-image');
 });
+function openPdf(pdfUrl) {
+    const pdfViewer = document.getElementById('pdfViewer');
+    const pdfFrame = document.getElementById('pdfFrame');
+    pdfFrame.src = pdfUrl;
+    pdfViewer.style.display = 'block';
+}
+
+function closePdf() {
+    const pdfViewer = document.getElementById('pdfViewer');
+    const pdfFrame = document.getElementById('pdfFrame');
+    pdfFrame.src = ''; // Clear the PDF
+    pdfViewer.style.display = 'none';
+}
