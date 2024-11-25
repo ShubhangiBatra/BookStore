@@ -54,3 +54,76 @@ function openPdfInViewer(pdfUrl) {
     const viewerUrl = `https://docs.google.com/gview?url=${window.location.origin}/${pdfUrl}&embedded=true`;
     window.open(viewerUrl, '_blank');
 }
+
+const scale = 1.5;
+let pdfDoc = null,
+  pageNum = 1,
+  pageIsRendering = false,
+  pageNumIsPending = null;
+
+const canvas = document.querySelector('#pdf-render');
+const ctx = canvas.getContext('2d');
+
+function renderPage(num) {
+  pageIsRendering = true;
+
+  pdfDoc.getPage(num).then((page) => {
+    const viewport = page.getViewport({ scale });
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    const renderCtx = { canvasContext: ctx, viewport };
+    page.render(renderCtx).promise.then(() => {
+      pageIsRendering = false;
+      if (pageNumIsPending !== null) {
+        renderPage(pageNumIsPending);
+        pageNumIsPending = null;
+      }
+    });
+
+    document.querySelector('#page-num').textContent = num;
+  });
+}
+
+function queueRenderPage(num) {
+  if (pageIsRendering) {
+    pageNumIsPending = num;
+  } else {
+    renderPage(num);
+  }
+}
+
+function showPrevPage() {
+  if (pageNum <= 1) return;
+  pageNum--;
+  queueRenderPage(pageNum);
+}
+
+function showNextPage() {
+  if (pageNum >= pdfDoc.numPages) return;
+  pageNum++;
+  queueRenderPage(pageNum);
+}
+
+function openPdfViewer(pdfPath) {
+  const modal = document.querySelector('#pdf-viewer-modal');
+  modal.style.display = 'flex';
+
+  pdfjsLib
+    .getDocument(pdfPath)
+    .promise.then((pdfDoc_) => {
+      pdfDoc = pdfDoc_;
+      document.querySelector('#page-count').textContent = pdfDoc.numPages;
+      renderPage(pageNum);
+    })
+    .catch((err) => {
+      alert('Error loading PDF: ' + err.message);
+    });
+}
+
+function closePdfViewer() {
+  document.querySelector('#pdf-viewer-modal').style.display = 'none';
+}
+
+document.querySelector('#prev-page').addEventListener('click', showPrevPage);
+document.querySelector('#next-page').addEventListener('click', showNextPage);
