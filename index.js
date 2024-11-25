@@ -50,3 +50,7 @@ function closePdf() {
     pdfFrame.src = ''; // Clear the PDF
     pdfViewer.style.display = 'none';
 }
+function openPdfInViewer(pdfUrl) {
+    const viewerUrl = `https://docs.google.com/gview?url=${window.location.origin}/${pdfUrl}&embedded=true`;
+    window.open(viewerUrl, '_blank');
+}
