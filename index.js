@@ -1,12 +1,11 @@
-
 let pdfDoc = null,
     pageNum = 1,
     pageIsRendering = false,
     pageNumIsPending = null,
-    currentPDF = ''; // Dynamic PDF URL
+    currentPDF = '', // Dynamic PDF URL
+    scale = 1.0; // Default scale for PDFs
 
-const scale =0.2, // Adjust scale to control zoom level
-    canvas = document.querySelector('#pdf-render'),
+const canvas = document.querySelector('#pdf-render'),
     ctx = canvas.getContext('2d'),
     loadingIndicator = document.querySelector('#loading'),
     modal = document.querySelector('#pdf-modal'),
@@ -18,12 +17,19 @@ const renderPage = (num) => {
 
     pdfDoc.getPage(num).then((page) => {
         const viewport = page.getViewport({ scale });
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+        const desiredWidth = canvas.parentElement.offsetWidth; // Fit canvas to container
+        const calculatedScale = desiredWidth / viewport.width;
+
+        // Adjust the scale dynamically if it's smaller than the user-defined scale
+        const finalScale = Math.max(scale, calculatedScale);
+
+        const adjustedViewport = page.getViewport({ scale: finalScale });
+        canvas.height = adjustedViewport.height;
+        canvas.width = adjustedViewport.width;
 
         const renderCtx = {
             canvasContext: ctx,
-            viewport,
+            viewport: adjustedViewport,
         };
 
         // Show loading indicator
@@ -31,9 +37,7 @@ const renderPage = (num) => {
 
         page.render(renderCtx).promise.then(() => {
             pageIsRendering = false;
-
-            // Hide loading indicator
-            loadingIndicator.style.display = 'none';
+            loadingIndicator.style.display = 'none'; // Hide loading indicator
 
             if (pageNumIsPending !== null) {
                 renderPage(pageNumIsPending);
@@ -69,32 +73,57 @@ const showNextPage = () => {
     queueRenderPage(pageNum);
 };
 
+// Zoom In
+document.querySelector('#zoom-in').addEventListener('click', () => {
+    scale += 0.2; // Increase scale
+    queueRenderPage(pageNum);
+});
+
+// Zoom Out
+document.querySelector('#zoom-out').addEventListener('click', () => {
+   // Prevent overly zoomed-out views
+        scale -= 0.2;
+        queueRenderPage(pageNum);
+    
+});
+
 // Load PDF
 const loadPDF = (pdfUrl) => {
+    loadingIndicator.textContent = 'Loading PDF...';
+    loadingIndicator.style.display = 'block';
+
     pdfjsLib.getDocument(pdfUrl).promise
         .then((pdfDoc_) => {
             pdfDoc = pdfDoc_;
             document.querySelector('#page-count').textContent = pdfDoc.numPages;
+
+            // Reset scale and page number
+            scale = 1.0;
+            pageNum = 1;
+
+            loadingIndicator.style.display = 'none';
             renderPage(pageNum);
         })
         .catch((err) => {
             loadingIndicator.textContent = 'Error loading PDF.';
+            console.error(err);
         });
 };
 
-// Open modal
+// Open modal and load PDF
 document.querySelectorAll('.open-pdf-viewer').forEach((button) => {
     button.addEventListener('click', (e) => {
         currentPDF = e.target.getAttribute('data-pdf'); // Get PDF URL from data attribute
-        pageNum = 1; // Reset to page 1
-        modal.style.display = 'flex';
+        modal.style.display = 'flex'; // Show modal
         loadPDF(currentPDF);
     });
 });
 
-// Close modal
+// Close modal and reset viewer
 closeBtn.addEventListener('click', () => {
     modal.style.display = 'none';
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+    loadingIndicator.style.display = 'none'; // Hide loading indicator
 });
 
 // Navigation buttons

@@ -253,7 +253,6 @@ section .main .main_img img {
 
 .arrivals .arrivals_box .arrivals_card .arrivals_tag p {
     font-family: queen of camelot;
-    font-size: 20px;
     margin: 8px 0;
 }
 
@@ -420,12 +419,26 @@ footer .end span{
   }
 
   
-  .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 24px;
+  #close-pdf-viewer {
     cursor: pointer;
+    background-color: #089da1;
+    color: #fff;
+    padding: 2px;
+    font-family: inherit;
+  }
+  #prev-page {
+    cursor: pointer;
+    background-color: #089da1;
+    color: #fff;
+    padding: 2px;
+    font-family: inherit;
+  }
+  #next-page {
+    cursor: pointer;
+    background-color: #089da1;
+    color: #fff;
+    padding: 2px;
+    font-family: inherit;
   }
   #pdf-modal {
     position: fixed;

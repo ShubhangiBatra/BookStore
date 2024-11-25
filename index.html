@@ -89,7 +89,11 @@
                     <div class="arrivals_icon">
                         <p class="writer">Hanuman Prasad Poddar</p>
                     </div>
-                    <a href="books_pdf/व्रजभाव की उपासना.pdf" class="arrivals_btn" target="_blank">Learn More</a>
+                    <button 
+                    class="arrivals_btn open-pdf-viewer" 
+                    data-pdf="public/books_pdf/व्रजभाव की उपासना.pdf">
+                    Learn More
+                </button>
                 </div>
             </div>
             <div class="arrivals_card">
@@ -211,13 +215,18 @@
       </div> -->
       <div id="pdf-modal" style="display: none;">
         <div class="modal-content">
-            <button id="close-pdf-viewer">Close</button>
+            <button id="close-pdf-viewer" class="pdf-viewer-btn">Close</button>
             <div id="loading" style="display: block;">Loading PDF...</div>
             <canvas id="pdf-render"></canvas>
             <div class="navigation">
-                <button id="prev-page">Previous</button>
-                <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
-                <button id="next-page">Next</button>
+                <div id="pdf-controls">
+                    <button id="prev-page">Previous</button>
+                    <button id="zoom-in">Zoom In</button>
+                    <button id="zoom-out">Zoom Out</button>
+                    <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
+                    <button id="next-page">Next</button>
+                </div>
+                
             </div>
         </div>
     </div>
