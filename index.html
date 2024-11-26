@@ -13,31 +13,50 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+
     
-    <section>
-        <div class="back">
+    <section id="main-page">
+        
         <nav>
-
             <div class="logo">
-                <img src="image/logo.png">
+                <img src="image/logo.png" alt="Logo">
             </div>
-
+        
             <ul>
-                <li><a href="#Home">Home</a></li>
-                <!-- <li><a href="#About">About</a></li>
-                <li><a href="#Featured">Featured</a></li>
-                <li><a href="#Arrivals">Arrivals</a></li>
-                <li><a href="#Reviews">Reviews</a></li>
-                <li><a href="#Blog">Blog</a></li> -->
+                <li class="dropdown">
+                 
+                </li>
+                <li><a href="#main-page">Home</a></li>
+               
             </ul>
-
+        
             <div class="social_icon">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <i class="fa-solid fa-heart"></i>
             </div>
-
+            <button id="toggle-sidebar" class="side-icon main-btn">
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
+            </button>
         </nav>
-
+        
+        <!-- Sidebar Content -->
+        <div id="sidebar">
+            <div id="sidebar-content">
+                <h3>Categories</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="#Arrivals">Gita Press</a></li>
+                    <li><a href="#Featured">Hanuman Prasad Poddar</a></li>
+                    <li><a href="#Reviews">New Additions</a></li>
+                    <li><a href="#About">About</a></li>
+                    <li><a href="#Blog">Blog</a></li>
+                    <li><a href="#Contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="back">     
+            
+       
         <div class="main">
 
             <div class="main_tag">
@@ -205,18 +224,8 @@
 
     </div>
 
-    <!-- <div id="pdf-viewer-modal" class="modal" style="display:none;">
-        <div class="modal-content">
-          <span class="close-btn" onclick="closePdfViewer()">&times;</span>
-          <div class="top-bar">
-            <button id="prev-page">Prev</button>
-            <button id="next-page">Next</button>
-            <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
-          </div>
-          <canvas id="pdf-render"></canvas>
-        </div>
-      </div> -->
-      <div id="pdf-modal" style="display: none;">
+  
+    <div id="pdf-modal" style="display: none;">
         <div class="modal-content">
             <button id="close-pdf-viewer" class="pdf-viewer-btn">Close</button>
             <div id="loading" style="display: block;">Loading PDF...</div>

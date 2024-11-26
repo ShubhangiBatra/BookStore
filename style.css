@@ -37,6 +37,7 @@ section nav .logo img {
 
 section nav ul {
     list-style: none;
+    margin: 0;
 }
 
 section nav li {
@@ -154,7 +155,10 @@ section .main .main_img img {
         font-size: 25px;
     }
 }
-
+/*side-icon*/
+.side-icon{
+   background-color: #089da1
+}
 
 /*about*/
 
@@ -480,5 +484,91 @@ footer .end span{
 
 button {
     margin: 5px;
+}/* Sidebar default styles */
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    transform: translateX(-100%); /* Hidden by default */
 }
-  
+
+#sidebar.open {
+    transform: translateX(0); /* Slide in when open */
+}
+
+#sidebar-content {
+    padding: 20px;
+}
+
+#sidebar h3 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.sidebar-menu {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar-menu li {
+    padding: 10px 15px;
+}
+
+.sidebar-menu li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar-menu li a:hover {
+    background-color: #575757;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+    #sidebar {
+        width: 200px; /* Narrower sidebar for smaller screens */
+    }
+
+    #sidebar h3 {
+        font-size: 18px;
+    }
+
+    .sidebar-menu li {
+        padding: 8px 12px;
+    }
+
+    .sidebar-menu li a {
+        font-size: 14px;
+    }
+
+    #toggle-sidebar {
+        font-size: 14px; /* Adjust button font size */
+        padding: 5px 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    #sidebar {
+        width: 180px; /* Further narrow for very small screens */
+    }
+
+    #sidebar h3 {
+        font-size: 16px;
+    }
+
+    .sidebar-menu li a {
+        font-size: 12px;
+    }
+
+    #toggle-sidebar {
+        font-size: 12px;
+    }
+}
